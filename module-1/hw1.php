@@ -44,11 +44,15 @@ $countArray = array('num_numeric' => 0, 'num_string' => 0, 'num_bool' => 0, 'num
 // still need to put boolean as first check, literal check for true and false
 // need to make whole thing a function that takes in any string and returns the counts
 // and make sure it works on cli
+// and sometimes a space is more than a space!
+// and found another mistake, count of strings/words should not include the booleans or numerics
+// and is E Coli one word or two? assume it's two
 
 $arr = array("?" => "", "!" => "", "(" => "", ")" => "", "“" => "", ".”" => "", "’" => "", " – " => " ",
                 ".
 " => " ", ". " => " ", "," => "", "!
-" => " ", ". " => " ");
+" => " ", ". " => " ", "
+" => " ");
 
 $inputString = strtr($inputString,$arr);
 
@@ -62,17 +66,22 @@ print_r($wordArray);
 
 foreach($wordArray as $val)  {
 
-    if(is_numeric($val))  {
-        $countArray['num_numeric'] ++;
+    if ($val === "true" || $val === "false")  {
+        $countArray['num_bool'] += 1;
     }
-    if(is_string($val))  {
-        $countArray['num_string'] ++;
+
+    elseif(is_numeric($val))  {
+        $countArray['num_numeric'] += 1;
     }
-    if(is_bool($val))  {
-        $countArray['num_bool'] ++;
+    elseif(is_string($val))  {
+        $countArray['num_string'] += 1;
     }
+    // if(is_bool($val))  {
+    //     $countArray['num_bool'] ++;
+    // }
+
     else
-        $countArray['num_messedup']  ++;
+        $countArray['num_messedup']  += 1;  // should be 0
 
 }
 
