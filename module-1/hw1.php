@@ -41,12 +41,14 @@ $countArray = array('num_numeric' => 0, 'num_string' => 0, 'num_bool' => 0, 'num
 // also need !tab change to space
 // Ok should have all the punctuation fixed now, but still may be more cases
 // did brute force method, probably something more elegant
-// still need to put boolean as first check, literal check for true and false
+// still need to put boolean as first check, literal check for true and false  - CHECK
 // need to make whole thing a function that takes in any string and returns the counts
 // and make sure it works on cli
 // and sometimes a space is more than a space!
 // and found another mistake, count of strings/words should not include the booleans or numerics
-// and is E Coli one word or two? assume it's two
+// so use elseif s
+// and is E Coli one word or two? assume it's two, same with vitamin K
+// note to self look up preg_replace
 
 $arr = array("?" => "", "!" => "", "(" => "", ")" => "", "“" => "", ".”" => "", "’" => "", " – " => " ",
                 ".
