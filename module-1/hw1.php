@@ -27,10 +27,20 @@ land on all the surfaces in a room. You could say, “That’s me all over.”
 It takes food 7.64 seconds to go from the mouth to the stomach via the esophagus.
 MYSTR;
 
-/** @var array $countArray Result array that contains the counts. You will populate this array with appropriate numbers */
-$countArray = array('num_numeric' => 0, 'num_string' => 0, 'num_bool' => 0, 'num_messedup' => 0);
+// turn into a function to accept any string
 
-/** @var array $wordArray Array of every word in the input string */
+countTypes($inputString);   // call the function
+
+/**
+ * @param string $anyString input string to countTypes
+ */
+function countTypes($anyString)
+{
+
+    /** @var array $countArray Result array that contains the counts. You will populate this array with appropriate numbers */
+    $countArray = array('num_numeric' => 0, 'num_string' => 0, 'num_bool' => 0, 'num_messedup' => 0);
+
+    /** @var array $wordArray Array of every word in the input string */
 // explode converts a string into an array, separated by delimiter of a single space
 // first need to remove characters: ? ! ( ) " " ' - .space , .tab
 // don't remove periods inside of a numeric like 70.5
@@ -50,52 +60,55 @@ $countArray = array('num_numeric' => 0, 'num_string' => 0, 'num_bool' => 0, 'num
 // and is E Coli one word or two? assume it's two, same with vitamin K
 // note to self look up preg_replace
 
-$arr = array("?" => "", "!" => "", "(" => "", ")" => "", "“" => "", ".”" => "", "’" => "", " – " => " ",
-                ".
+    $arr = array("?" => "", "!" => "", "(" => "", ")" => "", "“" => "", ".”" => "", "’" => "", " – " => " ",
+        ".
 " => " ", ". " => " ", "," => "", "!
 " => " ", ". " => " ", "
 " => " ");
 
-$inputString = strtr($inputString,$arr);
+    $newinputString = strtr($anyString, $arr);
 
-$wordArray = explode(" ", $inputString);
+    $wordArray = explode(" ", $newinputString);
 
-print_r($wordArray);
+    print_r($wordArray);
 
 // Need to use as a function
 // Need to strip out special chars and punctuation
 // Need to start with most specialized case first
 
-foreach($wordArray as $val)  {
+    foreach ($wordArray as $val) {
 
-    if ($val === "true" || $val === "false")  {
-        $countArray['num_bool'] += 1;
+        if ($val == "true" || $val == "false" || $val == "True" || $val == "False") {
+            $countArray['num_bool'] += 1;
+        } elseif (is_numeric($val)) {
+            $countArray['num_numeric'] += 1;
+        } elseif (is_string($val)) {
+            $countArray['num_string'] += 1;
+        }
+        // if(is_bool($val))  {
+        //     $countArray['num_bool'] ++;
+        // }
+
+        else
+            $countArray['num_messedup'] += 1;  // should be 0
+
     }
 
-    elseif(is_numeric($val))  {
-        $countArray['num_numeric'] += 1;
-    }
-    elseif(is_string($val))  {
-        $countArray['num_string'] += 1;
-    }
-    // if(is_bool($val))  {
-    //     $countArray['num_bool'] ++;
-    // }
-
-    else
-        $countArray['num_messedup']  += 1;  // should be 0
-
-}
-
-echo "<br><br>Here are the counter values: <br>";
-print_r($countArray);
+    echo "<br><br>Here are the counter values: <br>";
+    print_r($countArray);
 
 // 30 & 47 as test cases to see what's happening with numbers
 
 // $word30 = $wordArray['30'];
 // $word47 = $wordArray['47'];
 
-echo "<br><br>";
+    echo "<br><br>";
+
+    echo "There are " . $countArray['num_string'] . " words, "; echo "<br>";
+    echo $countArray['num_bool'] . " booleans and ";  echo "<br>";
+    echo $countArray['num_numeric'] . " numbers!";
+
+}  // end of function countTypes
 
 // echo is_numeric($word30) . " for " . $word30 . "<br>";
 // echo is_numeric($word47) . " for " . $word47 . "<br>";
