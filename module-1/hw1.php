@@ -76,6 +76,17 @@ function countTypes($anyString)
 // Need to strip out special chars and punctuation
 // Need to start with most specialized case first
 
+    // "\\n"  search and replace , needs to be double quotes or
+    // instead of worrying about \n or \\n, use PHP_EOL
+    // Samir did explode first and then used for each to remove extra stuff by each word (str_replace)
+    // encoded in homework differently  <<<, this is heredoc syntax
+    // $class = <<<FOO
+
+    // FOO;  // this close tag must be all the way to the left
+    // start here and end here tags
+    // anything can be inbetween tags
+
+
     foreach ($wordArray as $val) {
 
         if ($val == "true" || $val == "false" || $val == "True" || $val == "False") {
@@ -94,7 +105,7 @@ function countTypes($anyString)
 
     }
 
-    echo "<br><br>Here are the counter values: <br>";
+    echo "\nHere are the counter values: \n";
     print_r($countArray);
 
 // 30 & 47 as test cases to see what's happening with numbers
@@ -102,11 +113,13 @@ function countTypes($anyString)
 // $word30 = $wordArray['30'];
 // $word47 = $wordArray['47'];
 
-    echo "<br><br>";
+    echo "\n\n";
 
-    echo "There are " . $countArray['num_string'] . " words, "; echo "<br>";
-    echo $countArray['num_bool'] . " booleans and ";  echo "<br>";
+    echo "There are " . $countArray['num_string'] . " words, "; echo "\n";
+    echo $countArray['num_bool'] . " booleans and ";  echo "\n";
     echo $countArray['num_numeric'] . " numbers!";
+
+    echo "\n\n";
 
 }  // end of function countTypes
 
