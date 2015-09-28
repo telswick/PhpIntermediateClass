@@ -53,6 +53,10 @@ function getDeck()
         switch ($i) {
             case 0:
                 $deckarrayD[$i] = "A" . "D";
+                // ok let's get fancy and try to replace with card images
+                // $pic = <html><img src="d1.png"><?html>;
+                // $deckarrayD[$i] = "<html><img src="/cards_png/d1.png/"></html>";
+
                 break;
             case 10:
                 $deckarrayD[$i] = "J" . "D";
@@ -89,7 +93,7 @@ function getDeck()
 // for loop to populate Clubs
     for($i = 0; $i < 13; $i++)  {
         $j = $i + 1;
-        $deckarrayC[$i] =  "$i" . "C";
+        $deckarrayC[$i] =  "$j" . "C";
         switch ($i) {
             case 0:
                 $deckarrayC[$i] = "A" . "C";
@@ -109,7 +113,7 @@ function getDeck()
 // for loop to populate Spades
     for($i = 0; $i < 13; $i++)  {
         $j = $i + 1;
-        $deckarrayS[$i] =  "$i" . "S";
+        $deckarrayS[$i] =  "$j" . "S";
         switch ($i) {
             case 0:
                 $deckarrayS[$i] = "A" . "S";
@@ -129,8 +133,16 @@ function getDeck()
 $deck = array_merge($deckarrayD, $deckarrayH, $deckarrayC, $deckarrayS );
 
     // echo "<pre";
+    echo "Deck before shuffling: <br>";
     print_r($deck);
+    echo "<br>";
+    echo "<br>";
+    // echo count($deck);
+    echo "<br>";
+    echo "<br>";
     // echo "</pre>";
+
+return $deck;
 
 }
 
@@ -141,10 +153,42 @@ $deck = array_merge($deckarrayD, $deckarrayH, $deckarrayC, $deckarrayS );
  *
  * @return void
  */
+
+// choose random card (via index) for 1st card, remove card from deck, choose new random card (index is now
+// reduced by 1)
 function shuffleDeck(&$deck)
 {
+    // echo count($deck);
+    $lastcard = count($deck) - 1;
+    // echo "<br>" . "last card " . " = " .  $lastcard;
 
+    for ($x = $lastcard; $x >= 0 ; $x--) {
+        // $x counts down from 51 to 0
+        $randomindex = rand(0, $x);
+        $randomcard = $deck[$randomindex];     // chooses random card from remaining cards
+        echo "random index is:  " . $randomindex . "---> ";
+        echo "random card is:  " . $randomcard . "  ";
+        // replace current last card in deck ($x), with random (shuffled) card
+        // also need to remove chosen, random card
+        // try using unset($array[element])
+        // without losing or writing over current last card in deck
+        // random index can repeat, but random card cannot repeat
+        $temp = $randomcard;                // hold $randomcard in temp
+        unset($deck[$randomindex]);         // remove value/placeholder for $randomcard
+        $deck = array_values($deck);        // to reindex array
+        $deck[] = $temp;                    // move $randomcard to current last card in deck
+        echo "<br><br>";
+        // print_r($deck);
+        // die('stop after 1 iteration of for loop');
+
+        // filling in shuffled cards from end of deck -> front of deck
+
+    }
+
+    // return $deck;
 }
+
+
 
 /**
  * @param array $players      An array of player names
@@ -163,12 +207,18 @@ function deal($players, $numCards, &$shuffledDeck)
 
 // Crack open a brand new deck of cards
 $deck = getDeck();
+// echo count($deck);
+echo "<br>";
 
-// Shuffle the deck
+// Shuffle the deck (in place, so function called is by reference)
 shuffleDeck($deck);
 
+echo "<br><br>";
 echo 'Deck after shuffling, but before dealing: <br/>';
 print_r($deck);
+echo "<br>";
+
+die('got here after shuffling deck');
 
 $players = array('Joe', 'Mary', 'Zim');
 $numCards = 3;
@@ -177,6 +227,8 @@ $playerHands = deal($players, $numCards, $deck);
 
 echo 'Hands each player has: <br/>';
 print_r($playerHands);
+echo "<br>";
 
 echo 'Deck after dealing: <br/>';
 print_r($deck);
+echo "<br>";
