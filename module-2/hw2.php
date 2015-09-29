@@ -225,7 +225,7 @@ function deal($players, $numCards, &$shuffledDeck)
 {
 // need outer loop for # of players
     $numPlayers = count($players);
-    $totalcardstodeal = $numPlayers * $numCards;
+    // $totalcardstodeal = $numPlayers * $numCards;
     // $totalelements = $totalcardstodeal + $numPlayers;
 
 
