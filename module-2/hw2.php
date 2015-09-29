@@ -52,20 +52,21 @@ function getDeck()
         $deckarrayD[$i] =  "$j" . "D";
         switch ($i) {
             case 0:
-                $deckarrayD[$i] = "A" . "D";
+                // $deckarrayD[$i] = "A" . "D";
                 // ok let's get fancy and try to replace with card images
-                // $pic = <html><img src="d1.png"><?html>;
-                // $deckarrayD[$i] = "<html><img src="/cards_png/d1.png/"></html>";
-
+                $deckarrayD[$i] = "<img src='cards_png/d1.png' alt='Ace of Diamonds' width='2.5%'>";
                 break;
             case 10:
-                $deckarrayD[$i] = "J" . "D";
+                // $deckarrayD[$i] = "J" . "D";
+                $deckarrayD[$i] = "<img src='cards_png/dj.png' alt='Jack of Diamonds' width='2.5%'>";
                 break;
             case 11:
-                $deckarrayD[$i] = "Q" . "D";
+                // $deckarrayD[$i] = "Q" . "D";
+                $deckarrayD[$i] = "<img src='cards_png/dq.png' alt='Queen of Diamonds' width='2.5%'>";
                 break;
             case 12:
-                $deckarrayD[$i] = "K" . "D";
+                // $deckarrayD[$i] = "K" . "D";
+                $deckarrayD[$i] = "<img src='cards_png/dk.png' alt='King of Diamonds' width='2.5%'>";
                 break;
         }
     }
@@ -76,16 +77,20 @@ function getDeck()
         $deckarrayH[$i] =  "$j" . "H";
         switch ($i) {
             case 0:
-                $deckarrayH[$i] = "A" . "H";
+                // $deckarrayH[$i] = "A" . "H";
+                $deckarrayH[$i] = "<img src='cards_png/h1.png' alt='Ace of Hearts' width='2.5%'>";
                 break;
             case 10:
-                $deckarrayH[$i] = "J" . "H";
+                // $deckarrayH[$i] = "J" . "H";
+                $deckarrayH[$i] = "<img src='cards_png/hj.png' alt='Jack of Hearts' width='2.5%'>";
                 break;
             case 11:
-                $deckarrayH[$i] = "Q" . "H";
+                // $deckarrayH[$i] = "Q" . "H";
+                $deckarrayH[$i] = "<img src='cards_png/hq.png' alt='Queen of Hearts' width='2.5%'>";
                 break;
             case 12:
-                $deckarrayH[$i] = "K" . "H";
+                // $deckarrayH[$i] = "K" . "H";
+                $deckarrayH[$i] = "<img src='cards_png/hk.png' alt='King of Hearts' width='2.5%'>";
                 break;
         }
     }
@@ -96,16 +101,20 @@ function getDeck()
         $deckarrayC[$i] =  "$j" . "C";
         switch ($i) {
             case 0:
-                $deckarrayC[$i] = "A" . "C";
+                // $deckarrayC[$i] = "A" . "C";
+                $deckarrayC[$i] = "<img src='cards_png/c1.png' alt='Ace of Clubs' width='2.5%'>";
                 break;
             case 10:
-                $deckarrayC[$i] = "J" . "C";
+                // $deckarrayC[$i] = "J" . "C";
+                $deckarrayC[$i] = "<img src='cards_png/cj.png' alt='Jack of Clubs' width='2.5%'>";
                 break;
             case 11:
-                $deckarrayC[$i] = "Q" . "C";
+                // $deckarrayC[$i] = "Q" . "C";
+                $deckarrayC[$i] = "<img src='cards_png/cq.png' alt='Queen of Clubs' width='2.5%'>";
                 break;
             case 12:
-                $deckarrayC[$i] = "K" . "C";
+                // $deckarrayC[$i] = "K" . "C";
+                $deckarrayC[$i] = "<img src='cards_png/ck.png' alt='King of Clubs' width='2.5%'>";
                 break;
         }
     }
@@ -116,16 +125,22 @@ function getDeck()
         $deckarrayS[$i] =  "$j" . "S";
         switch ($i) {
             case 0:
-                $deckarrayS[$i] = "A" . "S";
+                // $deckarrayS[$i] = "A" . "S";
+                // $file = "C:\htdocs\code\PHPIntermediate\inclass\fall-2015\module-2\cards_png\s1.png";
+                // $deckarrayS[$i] = "<img src='cards_png/s1.png' alt='Ace of Spades' width='71' height='96'>";
+                $deckarrayS[$i] = "<img src='cards_png/s1.png' alt='Ace of Spades' width='2.5%'>";
                 break;
             case 10:
-                $deckarrayS[$i] = "J" . "S";
+                // $deckarrayS[$i] = "J" . "S";
+                $deckarrayS[$i] = "<img src='cards_png/sj.png'  width='2.5%'>";
                 break;
             case 11:
-                $deckarrayS[$i] = "Q" . "S";
+                // $deckarrayS[$i] = "Q" . "S";
+                $deckarrayS[$i] = "<img src='cards_png/sq.png'  width='2.5%'>";
                 break;
             case 12:
                 $deckarrayS[$i] = "K" . "S";
+                $deckarrayS[$i] = "<img src='cards_png/sk.png'  width='2.5%'>";
                 break;
         }
     }
