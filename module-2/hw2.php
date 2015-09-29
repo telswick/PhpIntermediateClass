@@ -49,7 +49,9 @@ function getDeck()
 // for loop to populate Diamonds
     for($i = 0; $i < 13; $i++)  {
         $j= $i + 1;
-        $deckarrayD[$i] =  "$j" . "D";
+        // $deckarrayD[$i] =  "$j" . "D";
+        $source = "cards_png/" . "d" . $j . ".png";
+        $deckarrayD[$i] = "<img src=$source width='2.5%'>";
         switch ($i) {
             case 0:
                 // $deckarrayD[$i] = "A" . "D";
@@ -74,7 +76,9 @@ function getDeck()
 // for loop to populate Hearts
     for($i = 0; $i < 13; $i++)  {
         $j = $i + 1;
-        $deckarrayH[$i] =  "$j" . "H";
+        // $deckarrayH[$i] =  "$j" . "H";
+        $source = "cards_png/" . "h" . $j . ".png";
+        $deckarrayH[$i] = "<img src=$source width='2.5%'>";
         switch ($i) {
             case 0:
                 // $deckarrayH[$i] = "A" . "H";
@@ -98,7 +102,9 @@ function getDeck()
 // for loop to populate Clubs
     for($i = 0; $i < 13; $i++)  {
         $j = $i + 1;
-        $deckarrayC[$i] =  "$j" . "C";
+        // $deckarrayC[$i] =  "$j" . "C";
+        $source = "cards_png/" . "c" . $j . ".png";
+        $deckarrayC[$i] = "<img src=$source width='2.5%'>";
         switch ($i) {
             case 0:
                 // $deckarrayC[$i] = "A" . "C";
@@ -122,7 +128,9 @@ function getDeck()
 // for loop to populate Spades
     for($i = 0; $i < 13; $i++)  {
         $j = $i + 1;
-        $deckarrayS[$i] =  "$j" . "S";
+        // $deckarrayS[$i] =  "$j" . "S";
+        $source = "cards_png/" . "s" . $j . ".png";
+        $deckarrayS[$i] = "<img src=$source width='2.5%'>";
         switch ($i) {
             case 0:
                 // $deckarrayS[$i] = "A" . "S";
@@ -188,6 +196,7 @@ function shuffleDeck(&$deck)
         // try using unset($array[element])
         // without losing or writing over current last card in deck
         // random index can repeat, but random card cannot repeat
+        // Joe says maybe try doing swap 1-1 cards repeatedly
         $temp = $randomcard;                // hold $randomcard in temp
         unset($deck[$randomindex]);         // remove value/placeholder for $randomcard
         $deck = array_values($deck);        // to reindex array
@@ -217,7 +226,7 @@ function deal($players, $numCards, &$shuffledDeck)
 // need outer loop for # of players
     $numPlayers = count($players);
     $totalcardstodeal = $numPlayers * $numCards;
-    $totalelements = $totalcardstodeal + $numPlayers;
+    // $totalelements = $totalcardstodeal + $numPlayers;
 
 
     for ($cards = 0; $cards < $numCards; $cards++)  {       // cards from 0 to $numCards - 1; # of rounds of dealing
@@ -234,11 +243,17 @@ function deal($players, $numCards, &$shuffledDeck)
             unset($shuffledDeck[$x]);                       // remove value/placeholder for $randomcard
             $shuffledDeck = array_values($shuffledDeck);    // to reindex array
             // $playerHands = [$players[$y] => $shuffledDeck[$x]];
-            $playerHands = [$players[$y] => $temp];         // problem: skipping a card when starting new round
-            // $x = $x + 1;                                 // fixed: x = 0 always, first card of remaining deck
+            // $playerHands = [$players[$y] => $temp];         // problem: skipping a card when starting new round
+                                                            // fixed: x = 0 always, first card of remaining deck
+
+            $playerY = $players[$y];
+            $playerHands[$playerY][] = $temp;               // need to keep cards/player in same array
+                                                            // yay, this works, but only need to print_r
+                                                            // once after function call
 
             echo "<br><br>";
             print_r($playerHands);
+            // return $playerHands;
 
 
         }
