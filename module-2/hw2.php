@@ -138,8 +138,8 @@ $deck = array_merge($deckarrayD, $deckarrayH, $deckarrayC, $deckarrayS );
     echo "<br>";
     echo "<br>";
     // echo count($deck);
-    echo "<br>";
-    echo "<br>";
+    // echo "<br>";
+    // echo "<br>";
     // echo "</pre>";
 
 return $deck;
@@ -166,8 +166,8 @@ function shuffleDeck(&$deck)
         // $x counts down from 51 to 0
         $randomindex = rand(0, $x);
         $randomcard = $deck[$randomindex];     // chooses random card from remaining cards
-        echo "random index is:  " . $randomindex . "---> ";
-        echo "random card is:  " . $randomcard . "  ";
+        // echo "random index is:  " . $randomindex . "---> ";
+        // echo "random card is:  " . $randomcard . "  ";
         // replace current last card in deck ($x), with random (shuffled) card
         // also need to remove chosen, random card
         // try using unset($array[element])
@@ -177,7 +177,7 @@ function shuffleDeck(&$deck)
         unset($deck[$randomindex]);         // remove value/placeholder for $randomcard
         $deck = array_values($deck);        // to reindex array
         $deck[] = $temp;                    // move $randomcard to current last card in deck
-        echo "<br><br>";
+        // echo "<br><br>";
         // print_r($deck);
         // die('stop after 1 iteration of for loop');
 
@@ -199,6 +199,37 @@ function shuffleDeck(&$deck)
  */
 function deal($players, $numCards, &$shuffledDeck)
 {
+// need outer loop for # of players
+    $numPlayers = count($players);
+    $totalcardstodeal = $numPlayers * $numCards;
+    $totalelements = $totalcardstodeal + $numPlayers;
+
+
+    for ($cards = 0; $cards < $numCards; $cards++)  {       // cards from 0 to $numCards - 1; # of rounds of dealing
+        $x = 0;                                             // need to start $x (index for deck) over at 0
+        for ($y = 0; $y < $numPlayers; $y++)  {             // cards are removed from deck as they are dealt
+                                                            // players from 0 to $numPlayers - 1 for each player
+                                                            // 1st card $shuffledDeck[0] goes to player[0] card[0]
+                                                            // give player x the number y of cards
+
+        // $playerHands = [$players[$y] => $shuffledDeck[$x]];
+            // $shuffledDeck = array_shift($shuffledDeck);     // array_shift to remove 1st card and reindex
+
+            $temp = $shuffledDeck[$x];                      // hold $randomcard in temp
+            unset($shuffledDeck[$x]);                       // remove value/placeholder for $randomcard
+            $shuffledDeck = array_values($shuffledDeck);    // to reindex array
+            // $playerHands = [$players[$y] => $shuffledDeck[$x]];
+            $playerHands = [$players[$y] => $temp];         // problem: skipping a card when starting new round
+            // $x = $x + 1;                                 // fixed: x = 0 always, first card of remaining deck
+
+            echo "<br><br>";
+            print_r($playerHands);
+
+
+        }
+
+
+    }
 
 }
 
@@ -213,12 +244,12 @@ echo "<br>";
 // Shuffle the deck (in place, so function called is by reference)
 shuffleDeck($deck);
 
-echo "<br><br>";
+// echo "<br>";
 echo 'Deck after shuffling, but before dealing: <br/>';
 print_r($deck);
 echo "<br>";
 
-die('got here after shuffling deck');
+// die('got here after shuffling deck');
 
 $players = array('Joe', 'Mary', 'Zim');
 $numCards = 3;
