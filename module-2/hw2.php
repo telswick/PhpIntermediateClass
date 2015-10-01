@@ -212,6 +212,19 @@ function shuffleDeck(&$deck)
     // return $deck;
 }
 
+// other ways to deal
+// foreach ($players as $player), easier than for loop
+// for each (item as index => $card)
+// and array_pop
+// multidimensional array
+// $players['player']['hand']
+// try adding player names by input form
+// if want to deal upside down use array_reverse
+// inline css <span style='
+// should add default to swith case for using actual numbered cards
+// look at Fisher Yates shuffle
+// do some css style sheet to show cards, like Jared did
+// objects should produce data, not echo stuff
 
 
 /**
