@@ -45,6 +45,11 @@ As a bonus, you may add some styling to your app to make it look aesthetically p
                 font-size:300%;
 
             }
+            h2  {
+                color:blue;
+                font-family:verdana;
+                font-size:200%;
+            }
             p  {
                 color:darkblue;
                 font-family:verdana;
@@ -69,9 +74,12 @@ As a bonus, you may add some styling to your app to make it look aesthetically p
                 // Display it in the console!
 
                 // Going to use ajax calls within framework to update without page refresh
+                // Joe: ajax calls are asynchronous, not linear, can't depend on it to be done for following
+                // turns into race condition
+                // Didn't need to use ajax for this homework
 
                 $.ajax({
-                    url: "hw3countries.php",
+                    url: "hw3countries.php",        // make separate file like getcountries, that contains the get file
                     dataType: "json",
                     method : "POST",
                     data: {
@@ -115,13 +123,13 @@ As a bonus, you may add some styling to your app to make it look aesthetically p
 
     </head>
 
-    <body>
+    <body style="background-color:lightgrey">
 
-        <h3>Countries on Earth</h3>
+        <h1>Countries on Earth</h1>
 
         <form action="<?php echo($_SERVER['PHP_SELF']); ?>" method="post">
-    Enter Country Name: <input type="text" name="country_name" size="30"/>
-            <input type="submit" value="Get Details"/>
+    <p>Enter Country Name: <input type="text" name="country_name" size="30"/>
+            <input type="submit" value="Get Details"/></>
         </form>
 
         <hr/>
@@ -136,6 +144,9 @@ As a bonus, you may add some styling to your app to make it look aesthetically p
 
             // Hint: To access data in a stdClass object use the -> operator
             // $data->name = 'Samir'; echo $data->name;
+
+            // use strtolower htmlentities  to clean expected API input
+            // (also look at urlencode)
 
 
         }
@@ -152,13 +163,33 @@ As a bonus, you may add some styling to your app to make it look aesthetically p
 
 // get data from a URL using the file_get_contents() PHP method. The API will give you data back in JSON
 
+// api endpoint iw where the data is served up
 $filename = "http://restcountries.eu/rest/v1/name/$countryName";
+
+// quick and easy way to fiddle with things, status code 2xx is all is ok
+// look at http status codes
+
+// put an & and it suppressed warning, don't do this
+// look up packagist, guzzle use to make http requests
+// bad country,
+
+// if(!empty($countryJson))  {    put around after file_get_contents
 
 $result = file_get_contents($filename);
 
 // use json_decode() to decode this data into an array
+// convert the received json into an array
 
 $resultarray = json_decode($result);
+
+// do an array_pop here to get only one of the results, pop off the
+// data contained within the result set
+// json-decode has another 2nd optional argument, $assoc = false standard class object
+// $assoc = true gives back associative array
+
+// some countries like us return multiple results, Jerry picks out all countries and uses buttons to show options
+// or Samir does foreach($countryArray as $countryObject) around stuff, after if (!empty($countryArray
+// and else echo malformed request
 
 echo '<pre>';
 
@@ -168,12 +199,12 @@ echo '</pre>';
 
 
 
-echo "<h1>Country Name: " . $resultarray[0] -> name . '<br/></h1>';
+echo "<h2>Country Name: " . $resultarray[0] -> name . '<br/></h2>';
 echo "<p>Capital: " . $resultarray[0] -> capital . '<br/></p>';
 echo "<p>Region: " . $resultarray[0] -> region . '<br/></p>';
 echo "<p>Population: " . number_format($resultarray[0] -> population) . '<br/></p>';
 
-echo "<p>Languages Spoken: </p>";
+echo "<p>Languages Spoken: ";
         foreach(($resultarray[0] -> languages) as $vals) {
             echo "<p>$vals" . ", " . '</p>';
         };
@@ -181,3 +212,5 @@ echo "<p>Languages Spoken: </p>";
 // error: trying to get property of non object ???  fixed by adding [0] after $resultarray
 // need to format population number and
 // go through languages as an array
+
+   // could do implode with , separator on languages
