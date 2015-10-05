@@ -263,6 +263,7 @@ class Deck
      */
     protected function createCards()
     {
+        $Cards = array();
         $suits = array('D', 'H', 'S', 'C');
         $ranks = array_merge(array('A'), range(2, 10), array('J', 'Q', 'K'));
 
@@ -304,8 +305,31 @@ class Deck
         // copying from hw2 below
         // change $deck to $Cards
 
+        // can't figure out why $Cards from createCards does not carry
+        // over into shuffle method
+        // try recreating $Cards here in shuffle
+
+        // $Cards = array();
+
+        $Cards = array();
+        $suits = array('D', 'H', 'S', 'C');
+        $ranks = array_merge(array('A'), range(2, 10), array('J', 'Q', 'K'));
+
+        foreach($suits as $suit)
+        {
+            foreach($ranks as $rank)
+            {
+                $Cards[] = "$suit" . "$rank";
+            }
+        }
+        echo "<br><br>";
         // print_r($Cards);
-        echo count($Cards);
+
+
+
+
+        // print_r($Cards);
+        // echo "count = " . count($Cards);
         $lastcard = count($Cards) - 1;
         // echo "<br>" . "last card " . " = " .  $lastcard;
 
@@ -330,10 +354,13 @@ class Deck
 
             // filling in shuffled cards from end of deck -> front of deck
 
-            print_r($Cards);
+            // print_r($Cards);
+            // echo "on line 336, after shuffle";
 
             // copying from hw2 above
         }
+
+        print_r($Cards);
     }
 
 
@@ -369,5 +396,5 @@ $card5 = new Card('Diamond', 'k');
 
 // Create a deck and shuffle it
 $deck1 = new Deck();
-$deck1->shuffle();
+// $deck1->shuffle();
 
