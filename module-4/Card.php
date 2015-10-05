@@ -70,7 +70,7 @@ class Card
     }
 
     /**
-     * Create a HTML icon for this card, given suit and rank
+     * Create an HTML icon for this card, given suit and rank
      * @return void
      */
     protected function createIcon()
@@ -159,7 +159,7 @@ class Card
         }   // end of switch on $rank
 
         $source = "cards_png/" . $st . $rk . ".png";
-        echo $cardIcon = "<img src=$source width='2.75%'>";    // move to render
+        echo $cardIcon = "<img src=$source width='3.0%'>";    // move to render
 
 
 
@@ -224,11 +224,11 @@ class Card
     // of itself but not outside or to be extended
 
 
-}
+}  // end of class Card
 
 
 /**
- * Class Deck
+ * Class Deck represents a deck of cards and some common operations around a deck
  * Represents a deck of 52 cards
  * Functionality: shuffle the deck, get a card from the deck and
  * count the number of remaining cards
@@ -236,28 +236,56 @@ class Card
 class Deck
 {
     /**
-     * @var array Cards is an array of Card[]
+     * Array of shuffled cards
+     * @var array Card[]
      */
-    protected $Cards;
+    protected $Cards = array();
 
+    /**
+     * Create a deck and shuffle it
+     */
     public function __construct()
     {
+        // Create all cards in this deck
+        $this->createCards();
+        // print_r($Cards);
+        // die("after createCards in construct");
 
-
-
+        // Shuffle all the cards to begin with
+        $this->shuffle();
+        // print_r($Cards);
+        // die("after shuffle in construct");
     }
 
     /**
+     * Create all the necessary cards
      * @return void
      */
     protected function createCards()
     {
+        $suits = array('D', 'H', 'S', 'C');
+        $ranks = array_merge(array('A'), range(2, 10), array('J', 'Q', 'K'));
+
+        foreach($suits as $suit)
+        {
+           foreach($ranks as $rank)
+           {
+              $Cards[] = "$suit" . "$rank";
+           }
+        }
+        echo "<br><br>";
+        print_r($Cards);
+        // die("on line 277, print cards");
+        echo "<br><br>";
+
+
 
 
     }
 
     /**
-     *
+     * Get a random card from the deck, make sure that the card you get is not in the deck anymore
+     * @return Card
      */
     public function getCard()
     {
@@ -267,16 +295,50 @@ class Deck
 
 
     /**
+     * Shuffle all cards in the deck
      * @return void
      */
     public function shuffle()
     {
 
+        // copying from hw2 below
+        // change $deck to $Cards
 
+        // print_r($Cards);
+        echo count($Cards);
+        $lastcard = count($Cards) - 1;
+        // echo "<br>" . "last card " . " = " .  $lastcard;
+
+        for ($x = $lastcard; $x >= 0 ; $x--) {
+            // $x counts down from 51 to 0
+            $randomindex = rand(0, $x);
+            $randomcard = $Cards[$randomindex];     // chooses random card from remaining cards
+            // echo "random index is:  " . $randomindex . "---> ";
+            // echo "random card is:  " . $randomcard . "  ";
+            // replace current last card in deck ($x), with random (shuffled) card
+            // also need to remove chosen, random card
+            // try using unset($array[element])
+            // without losing or writing over current last card in deck
+            // random index can repeat, but random card cannot repeat
+            // Joe says maybe try doing swap 1-1 cards repeatedly
+            $temp = $randomcard;                // hold $randomcard in temp
+            unset($Cards[$randomindex]);        // remove value/placeholder for $randomcard
+            $Cards = array_values($Cards);      // to reindex array
+            $Cards[] = $temp;                   // move $randomcard to current last card in deck
+            // echo "<br><br>";
+            // die('stop after 1 iteration of for loop');
+
+            // filling in shuffled cards from end of deck -> front of deck
+
+            print_r($Cards);
+
+            // copying from hw2 above
+        }
     }
 
 
     /**
+     * How many cards are in this deck?
      * @return int
      */
     public function getNumCards()
@@ -287,7 +349,7 @@ class Deck
 
 
 
-}
+}  // end of class Deck
 
 
 // $deck1 = new Deck();
@@ -303,4 +365,9 @@ $card5 = new Card('Diamond', 'k');
 // $card5 = new Card('Specs', 'k');
 // echo $cardicon;
 // print_r($deck1);
+
+
+// Create a deck and shuffle it
+$deck1 = new Deck();
+$deck1->shuffle();
 
