@@ -603,29 +603,32 @@ $PlayerTraci->giveCard($Deck->getCard());
 
 
 // Show all the cards each player has been dealt
+
 echo "<h3 style='color:red'>" . $PlayerBob->getName().'</h3>';
 echo $PlayerBob->handrender();
 echo '<br/>';
-echo "<h5 style='color:red'>" . "Why am I getting two of each card?, says Bob";
+echo "<h4 style='color:red'>" . "Why am I getting two of each card?, says Bob";
 echo '<br/>';
-echo "<h5 style='color:red'>" . "Oh never mind, looks like she fixed it";
+echo "<h4 style='color:red'>" . "Oh never mind, looks like she fixed it";
 echo '<br/>';
-echo "<h5 style='color:red'>" . "Well now maybe someday we can play a REAL card game!";
-echo '<br/>';
+echo "<h4 style='color:red'>" . "Well now maybe someday we can play a REAL card game!";
+echo '<br/></body>';
+
 
 
 echo "<h3 style='color:green'>" . $PlayerSue->getName().'</h3>';
 echo $PlayerSue->handrender();
 echo '<br/>';
-echo "<h5 style='color:green'>" . "Yeah who made this crazy program anyway, says Sue ";
+echo "<h4 style='color:green'>" . "Yeah who made this crazy program anyway, says Sue ";
 echo '<br/>';
-echo "<h5 style='color:green'>" . "OMG She can't even deal the cards in the right order";
+echo "<h4 style='color:green'>" . "OMG She can't even deal the cards in the right order";
 echo '<br/>';
+
 
 echo "<h3 style='color:blue'>" . $PlayerTraci->getName().'</h3>';
 echo $PlayerTraci->handrender();
 echo '<br/>';
-echo "<h5 style='color:blue'>" . "Hey you two up there, watch who you're talking about!, says Traci ";
+echo "<h4 style='color:blue'>" . "Hey you two up there, watch who you're talking about!, says Traci ";
 echo '<br/>';
 echo '<br/>';
 
@@ -638,7 +641,7 @@ echo "<h2 style='color:blue'>" . "And the winner is ....... " . $PlayerTraci->ge
 
 
 
-// Add code above for instantiating, should be in index.php
+// Add code above for instantiating, should be in separate index.php
 
 
 
