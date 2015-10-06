@@ -27,12 +27,14 @@ class Card
      * @var string
      */
     protected $suit;
+    protected $st;
 
     /**
      * A, 2-10, J, Q, K
      * @var string
      */
     protected $rank;
+    protected $rk;
 
 
     /**
@@ -46,6 +48,7 @@ class Card
      * @var string
      */
     protected $icon;
+    protected $cardIcon;
 
     /**
      * Construct should only set properties
@@ -57,6 +60,10 @@ class Card
     {
         $this->suit = $suit;
         $this->rank = $rank;
+        $this->st = null;
+        $this->rk = null;
+        $this->icon = null;
+        $this->cardIcon = null;
 
         // how do I get the color?
         // as soon as you make a card it should have a color, don't wait until render
@@ -78,88 +85,91 @@ class Card
 
         switch($this->suit)  {
             case 'Diamond':
-                $st = "d";
+                $this->st = "d";
                 break;
             case 'Heart':
-                $st = "h";
+                $this->st = "h";
                 break;
             case 'Spade':
-                $st = "s";
+                $this->st = "s";
                 break;
             case 'Club':
-                $st = "c";
+                $this->st = "c";
                 break;
         }   // end of switch on suit
 
         switch($this->rank)  {
             case '2':
-                $rk = '2';
+                $this->rk = '2';
                 break;
 
             case '3':
-                $rk = '3';
+                $this->rk = '3';
                 break;
 
             case '4':
-                $rk = '4';
+                $this->rk = '4';
                 break;
 
             case '5':
-                $rk = '5';
+                $this->rk = '5';
                 break;
 
             case '6':
-                $rk = '6';
+                $this->rk = '6';
                 break;
 
             case '7':
-                $rk = '7';
+                $this->rk = '7';
                 break;
 
             case '8':
-                $rk = '8';
+                $this->rk = '8';
                 break;
 
             case '9':
-                $rk = '9';
+                $this->rk = '9';
                 break;
 
             case '10':
-                $rk = '10';
+                $this->rk = '10';
                 break;
 
             case 'A':
-                $rk = '1';
+                $this->rk = '1';
                 break;
             case 'a':
-                $rk = '1';
+                $this->rk = '1';
                 break;
 
             case 'J':
-                $rk = 'j';
+                $this->rk = 'j';
                 break;
             case 'j':
-                $rk = 'j';
+                $this->rk = 'j';
                 break;
 
             case 'Q':
-                $rk = 'q';
+                $this->rk = 'q';
                 break;
             case 'q':
-                $rk = 'q';
+                $this->rk = 'q';
                 break;
 
             case 'K':
-                $rk = 'k';
+                $this->rk = 'k';
                 break;
             case 'k':
-                $rk = 'k';
+                $this->rk = 'k';
                 break;
 
         }   // end of switch on $rank
 
-        $source = "cards_png/" . $st . $rk . ".png";
-        echo $cardIcon = "<img src=$source width='3.0%'>";    // move to render
+
+        $this->icon = "cards_png/" . $this->st . $this->rk . ".png";
+        // the cards will echo from here, but not in the render method?????
+        echo $this->cardIcon = "<img src=$this->icon width='3.5%'>" . "   ";    // move to render
+        // echo "showing cards from create Icon";
 
 
 
@@ -211,6 +221,10 @@ class Card
       // data should be what it is not what it looks like, render could handle
       // the ampersand thingy
 
+        echo $this->cardIcon = "<img src=$this->icon width='3.5%'>";    // moved to render
+
+        return $this->cardIcon;
+
     }
 
 
@@ -237,15 +251,34 @@ class Deck
 {
     /**
      * Array of shuffled cards
-     * @var array Card[]
+     * @var array Card[] $Cards
      */
     protected $Cards = array();
+    protected $suits;
+    protected $ranks;
+    protected $newcard;
+
+    // protected $suit;
+    // protected $rank;
+
+
 
     /**
      * Create a deck and shuffle it
      */
     public function __construct()
     {
+        $this->Cards = array();
+        $this->suits = null;
+        $this->ranks = null;
+        $this->newcard = null;
+        $this->cardigan = null;
+
+        // $this->suit = $suit;
+        // $this->rank = $rank;
+
+        // $this->$Cards = $Cards;
+
         // Create all cards in this deck
         $this->createCards();
         // print_r($Cards);
@@ -263,20 +296,25 @@ class Deck
      */
     protected function createCards()
     {
-        $Cards = array();
-        $suits = array('D', 'H', 'S', 'C');
-        $ranks = array_merge(array('A'), range(2, 10), array('J', 'Q', 'K'));
+        // $Cards = array();
+        // $suits = array('D', 'H', 'S', 'C');
+        $this->suits = array('Diamond', 'Heart', 'Spade', 'Club');
 
-        foreach($suits as $suit)
+        $this->ranks = array_merge(array('A'), range(2, 10), array('J', 'Q', 'K'));
+
+        foreach($this->suits as $suit)
         {
-           foreach($ranks as $rank)
+           foreach($this->ranks as $rank)
            {
-              $Cards[] = "$suit" . "$rank";
+               $this->newcard = new Card($suit, $rank);
+               $this->Cards[] = $this->newcard;
            }
         }
         echo "<br><br>";
-        print_r($Cards);
-        // die("on line 277, print cards");
+        // echo "<pre>";
+        // print_r($this->Cards);
+        // echo "</pre>";
+        // die("on line 300, print cards");
         echo "<br><br>";
 
 
@@ -290,7 +328,25 @@ class Deck
      */
     public function getCard()
     {
+        // oops probably should have done this before shuffle
+        // changing $shuffledDeck to $Cards
 
+        // $Cards = array();
+        // $this->suits = array();
+        // $this->ranks = array();
+        $this->cardigan = null;
+
+        // get a random value from $suits and from $ranks
+
+        // $x = $this->suits[rand(0, 3)];                        // for suits
+        // $y = rand(0,12);                        // for ranks
+        $this->cardigan = new Card('Diamond', '10');      // hold $randomcard in temp
+        // print_r($cardigan);
+
+        // unset($Cards[$x]);                       // remove value/placeholder for $randomcard
+        // $Cards = array_values($Cards);           // to reindex array
+
+        return $this->cardigan;
 
     }
 
@@ -301,6 +357,10 @@ class Deck
      */
     public function shuffle()
     {
+        // echo "why doesn't it know what $ Cards is here????";  // now it does!
+        // echo "<pre>";
+        // print_r($this->Cards);
+        // echo "</pre>";
 
         // copying from hw2 below
         // change $deck to $Cards
@@ -311,17 +371,17 @@ class Deck
 
         // $Cards = array();
 
-        $Cards = array();
-        $suits = array('D', 'H', 'S', 'C');
-        $ranks = array_merge(array('A'), range(2, 10), array('J', 'Q', 'K'));
+        // $Cards = array();
+        // $suits = array('D', 'H', 'S', 'C');
+        // $ranks = array_merge(array('A'), range(2, 10), array('J', 'Q', 'K'));
 
-        foreach($suits as $suit)
-        {
-            foreach($ranks as $rank)
-            {
-                $Cards[] = "$suit" . "$rank";
-            }
-        }
+        // foreach($suits as $suit)
+        // {
+        //     foreach($ranks as $rank)
+        //     {
+                // $Cards[] = "$suit" . "$rank";
+        //     }
+        // }
         echo "<br><br>";
         // print_r($Cards);
 
@@ -329,14 +389,15 @@ class Deck
 
 
         // print_r($Cards);
-        // echo "count = " . count($Cards);
-        $lastcard = count($Cards) - 1;
-        // echo "<br>" . "last card " . " = " .  $lastcard;
+        // why is $Cards empty now????
+        echo "count = " . count($this->Cards);
+        $lastcard = count($this->Cards) - 1;
+        echo "<br>" . "last card " . " = " .  $lastcard;
 
         for ($x = $lastcard; $x >= 0 ; $x--) {
             // $x counts down from 51 to 0
             $randomindex = rand(0, $x);
-            $randomcard = $Cards[$randomindex];     // chooses random card from remaining cards
+            $randomcard = $this->Cards[$randomindex];     // chooses random card from remaining cards
             // echo "random index is:  " . $randomindex . "---> ";
             // echo "random card is:  " . $randomcard . "  ";
             // replace current last card in deck ($x), with random (shuffled) card
@@ -346,9 +407,9 @@ class Deck
             // random index can repeat, but random card cannot repeat
             // Joe says maybe try doing swap 1-1 cards repeatedly
             $temp = $randomcard;                // hold $randomcard in temp
-            unset($Cards[$randomindex]);        // remove value/placeholder for $randomcard
-            $Cards = array_values($Cards);      // to reindex array
-            $Cards[] = $temp;                   // move $randomcard to current last card in deck
+            unset($this->Cards[$randomindex]);        // remove value/placeholder for $randomcard
+            $this->Cards = array_values($this->Cards);      // to reindex array
+            $this->Cards[] = $temp;                   // move $randomcard to current last card in deck
             // echo "<br><br>";
             // die('stop after 1 iteration of for loop');
 
@@ -360,7 +421,10 @@ class Deck
             // copying from hw2 above
         }
 
-        print_r($Cards);
+        echo "<pre>";
+        echo "Now showing shuffled deck <br><br>";
+        print_r($this->Cards);
+        echo "</pre>";
     }
 
 
@@ -370,7 +434,9 @@ class Deck
      */
     public function getNumCards()
     {
-
+        $numCards = count($this->Cards);
+        echo $numCards;
+        return $numCards;
 
     }
 
@@ -380,21 +446,67 @@ class Deck
 
 
 // $deck1 = new Deck();
-$card1 = new Card('Spade', '9');
-echo "<br><br><br>";
-$card2 = new Card('Diamond', 'A');
-echo "<br><br><br>";
-$card3 = new Card('Club', 'J');
-echo "<br><br><br>";
-$card4 = new Card('Heart', '10');
-echo "<br><br><br>";
-$card5 = new Card('Diamond', 'k');
+// $card1 = new Card('Spade', '9');
+// echo "<br><br><br>";
+// $card2 = new Card('Diamond', 'A');
+// echo "<br><br><br>";
+// $card3 = new Card('Club', 'J');
+// echo "<br><br><br>";
+// $card4 = new Card('Heart', '10');
+// echo "<br><br><br>";
+// $card5 = new Card('Diamond', 'k');
 // $card5 = new Card('Specs', 'k');
 // echo $cardicon;
 // print_r($deck1);
 
 
 // Create a deck and shuffle it
-$deck1 = new Deck();
+// $deck1 = new Deck();
 // $deck1->shuffle();
+
+// Get a random card from the deck
+
+// $deck1->getCard();
+
+
+// Create a deck and shuffle it
+$Deck = new Deck();
+// shuffling twice and don't need to, new deck also shuffles
+// $Deck->shuffle();
+
+// print_r($Cards);
+
+die("just after creating new $ Deck and shuffling it");
+
+// Create two new players
+$PlayerBob = new Player('Bob');
+$PlayerSue = new Player('Sue');
+
+// Give bob 3 cards
+$PlayerBob->giveCard($Deck->getCard());
+$PlayerBob->giveCard($Deck->getCard());
+$PlayerBob->giveCard($Deck->getCard());
+
+// Give sue 3 cards
+$PlayerSue->giveCard($Deck->getCard());
+$PlayerSue->giveCard($Deck->getCard());
+$PlayerSue->giveCard($Deck->getCard());
+
+// Show all the cards each player has been dealt
+echo '<h3>'.$PlayerBob->getName().'</h3>';
+echo $PlayerBob->render();
+echo '<br/>';
+echo '<h3>'.$PlayerSue->getName().'</h3>';
+echo $PlayerSue->render();
+echo '<br/>';
+echo 'Number of cards remaining in the deck: '.$Deck->getNumCards();
+
+
+
+
+
+
+// Add code above for instantiating, should be in index.php
+
+
 
