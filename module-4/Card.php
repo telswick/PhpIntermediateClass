@@ -221,7 +221,10 @@ class Card
       // data should be what it is not what it looks like, render could handle
       // the ampersand thingy
 
-        echo $this->cardIcon = "<img src=$this->icon width='3.5%'>";    // moved to render
+        // removing echo from following statement fixes problem of showing each
+        // players cards twice!
+
+        $this->cardIcon = "<img src=$this->icon width='3.5%'>";    // moved to render
 
         return $this->cardIcon;
 
@@ -340,11 +343,33 @@ class Deck
 
         // $x = $this->suits[rand(0, 3)];                        // for suits
         // $y = rand(0,12);                        // for ranks
-        $this->cardigan = new Card('Diamond', '10');      // hold $randomcard in temp
-        // print_r($cardigan);
 
-        // unset($Cards[$x]);                       // remove value/placeholder for $randomcard
-        // $Cards = array_values($Cards);           // to reindex array
+        // need to choose a random card from deck of Cards
+        // first get size of deck
+
+        // $numby = count($this->Cards);
+
+        $numby = $this->getNumCards();
+        // echo "numby is now = " . $numby . "<br>";
+        $num = rand(0, $numby - 1);
+
+        // $this->cardigan = new Card('Diamond', '10');      // hold $randomcard in temp
+        $this->cardigan = $this->Cards[$num];                // sometimes getting offset error here
+        // Undefined offset: 52 in /var/www/code/PHPIntermediate/inclass/fall-2015/module-4/Card.php on line 357
+        // Catchable fatal error: Argument 1 passed to Player::giveCard() must be an instance of Card, null given,
+        // called in /var/www/code/PHPIntermediate/inclass/fall-2015/module-4/Card.php on line 573 and
+        // defined in /var/www/code/PHPIntermediate/inclass/fall-2015/module-4/Card.php on line 496
+
+        // echo "<pre>";
+        // print_r($this->cardigan);
+        // echo "</pre>";
+
+        unset($this->Cards[$num]);                      // remove value/placeholder for $randomcard
+        $this->Cards = array_values($this->Cards);      // to reindex array
+
+        $numby = $this->getNumCards();                  // get a new numby just to be safe
+        // echo "numby - 1 = " . $numby . " after removing a card from deck " . "<br>";
+
 
         return $this->cardigan;
 
@@ -361,20 +386,16 @@ class Deck
         // echo "<pre>";
         // print_r($this->Cards);
         // echo "</pre>";
-
         // copying from hw2 below
         // change $deck to $Cards
-
         // can't figure out why $Cards from createCards does not carry
         // over into shuffle method
         // try recreating $Cards here in shuffle
-
+        // FIXED THE PROBLEM DON'T HAVE TO RECREATE CARDS IN SHUFFLE
         // $Cards = array();
-
         // $Cards = array();
         // $suits = array('D', 'H', 'S', 'C');
         // $ranks = array_merge(array('A'), range(2, 10), array('J', 'Q', 'K'));
-
         // foreach($suits as $suit)
         // {
         //     foreach($ranks as $rank)
@@ -382,20 +403,19 @@ class Deck
                 // $Cards[] = "$suit" . "$rank";
         //     }
         // }
-        echo "<br><br>";
+        // echo "<br><br>";
         // print_r($Cards);
 
 
-
-
         // print_r($Cards);
-        // why is $Cards empty now????
-        echo "count = " . count($this->Cards);
-        $lastcard = count($this->Cards) - 1;
-        echo "<br>" . "last card " . " = " .  $lastcard;
+        // why is $Cards empty now????  FIXED NOW
+        // echo "count = " . count($this->Cards);
+        // echo "count = " . $this->getNumCards();
+        $lastcard = $this->getNumCards() - 1;
+        // echo "<br>" . "last card " . " = " .  $lastcard;
 
         for ($x = $lastcard; $x >= 0 ; $x--) {
-            // $x counts down from 51 to 0
+
             $randomindex = rand(0, $x);
             $randomcard = $this->Cards[$randomindex];     // chooses random card from remaining cards
             // echo "random index is:  " . $randomindex . "---> ";
@@ -421,10 +441,16 @@ class Deck
             // copying from hw2 above
         }
 
-        echo "<pre>";
-        echo "Now showing shuffled deck <br><br>";
-        print_r($this->Cards);
-        echo "</pre>";
+        // echo "<pre>";
+        // echo "Now showing shuffled deck <br><br>";
+        // print_r($this->Cards);
+        // echo "</pre>";
+
+        // instead of showing complete array of $Cards like above
+        // try looping through just $this->cardIcon
+
+
+
     }
 
 
@@ -435,7 +461,7 @@ class Deck
     public function getNumCards()
     {
         $numCards = count($this->Cards);
-        echo $numCards;
+        // echo $numCards;
         return $numCards;
 
     }
@@ -443,6 +469,80 @@ class Deck
 
 
 }  // end of class Deck
+
+
+
+// start of Player below  //
+
+/**
+ * Class Player represents one player playing a game
+ */
+class Player
+{
+    /**
+     * Player name
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * Cards this player has been dealt
+     * @var Card[]
+     */
+    protected $Cards = array();
+
+    /**
+     * @param string $name Player's full name
+     */
+    public function __construct($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
+     * Give this player a card
+     * @param Card $Card
+     */
+    public function giveCard(Card $Card)
+    {
+        $this->Cards[] = $Card;
+    }
+
+    /**
+     * Render this player's cards for the browser
+     * @return string
+     */
+    public function handrender()
+    {
+        $return = null;
+
+        if (empty($this->Cards)) {
+
+            $return .= 'No Cards';
+
+        } else {
+
+            foreach ($this->Cards as $Card) {
+
+                $return .= $Card->render().' ';
+            }
+        }
+        return $return;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+}  // end of class Player
+
+
+
+echo "<h3>Here is a pretty deck of cards  " . "<br></h3>";
+
 
 
 // $deck1 = new Deck();
@@ -476,11 +576,12 @@ $Deck = new Deck();
 
 // print_r($Cards);
 
-die("just after creating new $ Deck and shuffling it");
+// die("just after creating new $ Deck and shuffling it");
 
 // Create two new players
 $PlayerBob = new Player('Bob');
 $PlayerSue = new Player('Sue');
+$PlayerTraci = new Player('Traci');
 
 // Give bob 3 cards
 $PlayerBob->giveCard($Deck->getCard());
@@ -492,14 +593,43 @@ $PlayerSue->giveCard($Deck->getCard());
 $PlayerSue->giveCard($Deck->getCard());
 $PlayerSue->giveCard($Deck->getCard());
 
+// Give Traci 3 cards
+$PlayerTraci->giveCard($Deck->getCard());
+$PlayerTraci->giveCard($Deck->getCard());
+$PlayerTraci->giveCard($Deck->getCard());
+
+
+
+
+
 // Show all the cards each player has been dealt
 echo '<h3>'.$PlayerBob->getName().'</h3>';
-echo $PlayerBob->render();
+echo $PlayerBob->handrender();
 echo '<br/>';
+echo "Why am I getting two of each card?, says Bob";
+echo '<br/>';
+echo "Oh never mind, looks like she fixed it";
+echo '<br/>';
+echo "Well now maybe someday we can play a REAL card game!";
+echo '<br/>';
+
+
 echo '<h3>'.$PlayerSue->getName().'</h3>';
-echo $PlayerSue->render();
+echo $PlayerSue->handrender();
 echo '<br/>';
-echo 'Number of cards remaining in the deck: '.$Deck->getNumCards();
+echo "Yeah who made this crazy program anyway, says Sue ";
+echo '<br/>';
+echo "OMG She can't even deal the cards in the right order";
+echo '<br/>';
+
+echo '<h3>'.$PlayerTraci->getName().'</h3>';
+echo $PlayerTraci->handrender();
+echo '<br/>';
+echo "Hey you two up there, watch who you're talking about!, says Traci ";
+echo '<br/>';
+echo '<br/>';
+
+echo 'Number of cards remaining in the deck: ' . $Deck->getNumCards();
 
 
 
