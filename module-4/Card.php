@@ -541,7 +541,7 @@ class Player
 
 
 
-echo "<h3>Here is a pretty deck of cards  " . "<br></h3>";
+echo "<h3 style='color:green'>" .  "Here is a pretty deck of cards  " . "<br></h3>";
 
 
 
@@ -571,8 +571,8 @@ echo "<h3>Here is a pretty deck of cards  " . "<br></h3>";
 
 // Create a deck and shuffle it
 $Deck = new Deck();
-// shuffling twice and don't need to, new deck also shuffles
-// $Deck->shuffle();
+// doesn't hurt to shuffle twice!
+$Deck->shuffle();
 
 // print_r($Cards);
 
@@ -603,33 +603,35 @@ $PlayerTraci->giveCard($Deck->getCard());
 
 
 // Show all the cards each player has been dealt
-echo '<h3>'.$PlayerBob->getName().'</h3>';
+echo "<h3 style='color:red'>" . $PlayerBob->getName().'</h3>';
 echo $PlayerBob->handrender();
 echo '<br/>';
-echo "Why am I getting two of each card?, says Bob";
+echo "<h5 style='color:red'>" . "Why am I getting two of each card?, says Bob";
 echo '<br/>';
-echo "Oh never mind, looks like she fixed it";
+echo "<h5 style='color:red'>" . "Oh never mind, looks like she fixed it";
 echo '<br/>';
-echo "Well now maybe someday we can play a REAL card game!";
+echo "<h5 style='color:red'>" . "Well now maybe someday we can play a REAL card game!";
 echo '<br/>';
 
 
-echo '<h3>'.$PlayerSue->getName().'</h3>';
+echo "<h3 style='color:green'>" . $PlayerSue->getName().'</h3>';
 echo $PlayerSue->handrender();
 echo '<br/>';
-echo "Yeah who made this crazy program anyway, says Sue ";
+echo "<h5 style='color:green'>" . "Yeah who made this crazy program anyway, says Sue ";
 echo '<br/>';
-echo "OMG She can't even deal the cards in the right order";
+echo "<h5 style='color:green'>" . "OMG She can't even deal the cards in the right order";
 echo '<br/>';
 
-echo '<h3>'.$PlayerTraci->getName().'</h3>';
+echo "<h3 style='color:blue'>" . $PlayerTraci->getName().'</h3>';
 echo $PlayerTraci->handrender();
 echo '<br/>';
-echo "Hey you two up there, watch who you're talking about!, says Traci ";
+echo "<h5 style='color:blue'>" . "Hey you two up there, watch who you're talking about!, says Traci ";
 echo '<br/>';
 echo '<br/>';
 
-echo 'Number of cards remaining in the deck: ' . $Deck->getNumCards();
+echo "<h1 style='color:purple'>" . "Number of cards remaining in the deck: " . $Deck->getNumCards();
+
+echo "<h2 style='color:blue'>" . "And the winner is ....... " . $PlayerTraci->getName() . "  Yay for me!" . "<br></h2>";
 
 
 
