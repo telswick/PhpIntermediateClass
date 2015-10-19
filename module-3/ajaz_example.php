@@ -33,11 +33,11 @@ echo '<br>';
 
 echo 'POST:';
 print_r($_POST);
-echo '<br';
+echo '<br>';
 
 echo 'REQUEST:';
 print_r($_REQUEST);
-echo '<hr>';
+echo '<br>';
 
 echo $classMates[$index];    // need to append onto this
 
@@ -79,5 +79,4 @@ echo $classMates[$index];    // need to append onto this
 
 
 
-</body>
 </html>

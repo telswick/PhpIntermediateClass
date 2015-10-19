@@ -10,6 +10,9 @@
 
 // @todo: show constructor overriding aka parent
 
+/**
+ * Class Animal
+ */
 class Animal {
 
     public $name;
