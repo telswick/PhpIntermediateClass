@@ -35,6 +35,7 @@ h1 {
 <?php
 
 include ('vendor/autoload.php');
+include ('NetflixSearch.php');
 
 // Remember to use urlencode on user inputs
 
@@ -46,7 +47,7 @@ include ('vendor/autoload.php');
 
         <image src="http://picturetwelve.com/wp-content/uploads/2013/04/netflix11.png" height="150" ></image>
 
-        
+
 
         <form action="<?php echo($_SERVER['PHP_SELF']); ?>" method="post">
             <p>Enter Title: <input type="text" name="title" size="30"/>
@@ -99,10 +100,9 @@ if ($_POST)
 
 }
 
+// Add section here for client usage
 
-
-
-use GuzzleHttp\Client;
+use GuzzleHttp\Client;        // use not allowed inside a function, move back to index
 
 $client = new Client([
     // Base URI is used with relative requests
@@ -112,50 +112,18 @@ $client = new Client([
     'timeout'  => 2.0,
 ]);
 
-// $test1 = '?title=Attack%20on%20titan';
-// $test2 = '?title=The%20Boondocks&year=2005';
-
-$test = '?title=Forrest%20Gump';    // Works if only using one search parameter, ie title
-$test = '?title=Chef';
-
-
-
-// Now try using
-
-echo "<pre>";
-// echo $title . " " . $year . " " . $director . " " . $actor;
-
-$data = array('title'=>$title,
-    'year'=>$year,
-    'director'=>$director,
-    'actor'=>$actor);
-
-
-$test = http_build_query($data, '', '&amp;', $enc_type = PHP_QUERY_RFC3986);
-// $test = http_build_query($data, '', ' ', $enc_type = PHP_QUERY_RFC3986);
+$search = new NetflixSearch();
+$search->setTitle($title);
+$search->setYear($year);
+$search->setDirector($director);
+$search->setActor($actor);
 
 
 
-$test = "?" . $test;        // ?title=Forrest&year=1994&director=Robert&actor=Hanks
-                            // why are spaces being encoded as %2B instead of %20?????
-$test = str_replace("%2B","%20", $test);    // try doing a string replace to get %20 for spaces
-                                            // well that works, but shouldn't have to
+$test = $search->performSearch();       // PROBLEM here is that class/method isn't actually doing the search work
 
-
-// echo "<br>";
-// echo $test;                 // ?title=Forrest&year=1994&director=Robert&actor=Hanks
-
-// die("setting up test for query");
-
-// getting this
-// title=gump&year=1994&director=&actor=hanks
-// want this
-// ?title=gump&year=1994&actor=hanks
-// getting %3F in front of title
-
-// foo=bar&baz=boom&cow=milk&php=hypertext+processor
-// foo=bar&amp;baz=boom&amp;cow=milk&amp;php=hypertext+processor
-
+// echo $test;
+// die();
 
 // Send a request to http://netflixroulette.net/api/api.php
 //  http://netflixroulette.net/api/api.php?title=Attack%20on%20titan
@@ -170,6 +138,14 @@ $body = $response->getBody();                // gives json output
 
 $resultarray = json_decode($body);           // json_decode expects string not object
 
+
+
+// Move section below to class NetflixSearch, starting from use Guzzle
+
+    // method performSearch gives back $resultarray
+
+// Move section above to class NetflixSearch
+
 echo '<pre>';
 // print_r($resultarray);                      // getting array of standard class objects, how to pick which one(s)?
 
@@ -178,19 +154,20 @@ echo '<pre>';
 // trying to get property of non-object??? was working earlier
 
 $source = $resultarray -> poster;
-echo $source;
+// echo $source;
 
 echo "<h2>Movie Title: " . $resultarray -> show_title . '<br/></h2>';
 ?>
 <html><img src="<?php echo $source; ?>" height="150"></html>
 <?php
+echo "<p>Summary: " . $resultarray -> summary . '<br/></p>';
 echo '<br/>';
 echo "<p>Year of Release: " . $resultarray -> release_year . '<br/></p>';
 echo "<p>Rating: " . $resultarray -> rating . '<br/></p>';
 echo "<p>Category: " . $resultarray -> category . '<br/></p>';
 echo "<p>Cast: " . $resultarray -> show_cast . '<br/></p>';
 echo "<p>Director: " . $resultarray -> director . '<br/></p>';
-echo "<p>Summary: " . $resultarray -> summary . '<br/></p>';
+// echo "<p>Summary: " . $resultarray -> summary . '<br/></p>';
 // echo "<p>Poster: " . $resultarray -> poster . '<br/></p>';
 echo "<p>Length: " . $resultarray -> runtime . '<br/></p>';
 
@@ -206,14 +183,6 @@ echo "<p>Length: " . $resultarray -> runtime . '<br/></p>';
 
 
 
-
-
-
-
 ?>
 
-
-
-
-<?php
 
